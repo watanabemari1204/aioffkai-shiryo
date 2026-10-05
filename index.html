@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>AIオフ会 資料室</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;700&family=Noto+Serif+JP:wght@400;600&display=swap">
+<style>
+/* 資料室：左に目次、右に資料。赤字＝修正メモ。引き算のデザイン（アイボリー・墨・朱） */
+:root{
+  --bg:#f6f1e7; --paper:#fdfbf6; --ink:#1d1b18; --sub:#5e584f; --red:#a83a26; --rule:#d6cfc0; --ok:#3d6b4f; --tint:#efe8d8;
+  --display:"Shippori Mincho","Hiragino Mincho ProN","Yu Mincho",serif;
+  --body:"Noto Serif JP","Hiragino Mincho ProN","Yu Mincho",serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){ --bg:#141210; --paper:#1d1a17; --ink:#f1ebdf; --sub:#b9b1a3; --red:#e8907a; --rule:#3a352e; --ok:#86bb98; --tint:#221f1b; color-scheme:dark }
+}
+:root[data-theme="dark"]{ --bg:#141210; --paper:#1d1a17; --ink:#f1ebdf; --sub:#b9b1a3; --red:#e8907a; --rule:#3a352e; --ok:#86bb98; --tint:#221f1b; color-scheme:dark }
+[hidden]{display:none!important}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.75;margin:0;padding-inline:16px}
+a{color:var(--ink);text-decoration-color:var(--red);text-underline-offset:3px}
+a:hover{color:var(--red)}
+h1,h2,h3{font-family:var(--display);margin:0;text-wrap:balance}
+.shell{max-width:1100px;margin-inline:auto;display:grid;grid-template-columns:230px minmax(0,1fr);gap:0 44px;padding-block:28px 80px}
+.head{grid-column:1/-1;padding-bottom:14px;border-bottom:1px solid var(--ink);margin-bottom:26px;display:flex;flex-wrap:wrap;gap:6px 24px;align-items:end;justify-content:space-between}
+.head .k{font-size:12px;color:var(--sub);letter-spacing:.08em}
+.head h1{font-size:34px;line-height:1.25;margin-top:6px}
+.head .sum{font-size:14px;color:var(--sub)}
+.head .sum b{font-family:var(--display);font-size:26px;color:var(--red);margin-right:3px}
+.lead{grid-column:1/-1;color:var(--sub);margin:0 0 26px;max-width:42em}
+.lead b{color:var(--red);font-weight:600}
+.banner{grid-column:1/-1;border-left:3px solid var(--red);padding:2px 0 2px 12px;margin:0 0 22px;color:var(--sub);font-size:14px}
+nav.toc{position:sticky;top:env(safe-area-inset-top,0px);align-self:start;padding-top:2px;max-height:100vh;overflow:auto}
+nav.toc h2{font-size:12px;color:var(--sub);letter-spacing:.1em;margin-bottom:8px;font-family:var(--body);font-weight:400}
+nav.toc ol{list-style:none;margin:0;padding:0}
+nav.toc li a{display:flex;justify-content:space-between;gap:8px;align-items:baseline;padding:7px 0;border-bottom:1px solid var(--rule);text-decoration:none;font-size:14px;line-height:1.5}
+nav.toc li a span.n{color:var(--red);font-family:var(--display);min-width:26px}
+nav.toc li a .t{flex:1}
+nav.toc li a .c{font-size:12px;color:var(--red);min-width:22px;text-align:right}
+nav.toc li.sep{margin-top:14px;font-size:12px;color:var(--sub);letter-spacing:.1em}
+main{min-width:0}
+section.blk{padding-top:26px;margin-top:6px;border-top:1.5px solid var(--ink);scroll-margin-top:12px}
+main > section.blk:first-child{margin-top:0;border-top:0;padding-top:0}
+.blk > .bh{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:baseline;margin-bottom:6px}
+.blk .no{font-family:var(--display);color:var(--red);font-size:20px}
+.blk h2{font-size:24px}
+.tag{font-size:11px;border:1px solid var(--red);color:var(--red);padding:0 6px;align-self:center}
+.blk .desc{color:var(--sub);margin:0 0 10px;max-width:40em}
+.blk .acts{display:flex;flex-wrap:wrap;gap:8px 18px;margin:0 0 18px;font-size:14px}
+.pages{display:grid;gap:30px}
+.pg{min-width:0}
+.pg .cap{display:flex;justify-content:space-between;gap:10px;font-size:13px;color:var(--sub);margin-bottom:6px;align-items:baseline}
+.pg .cap b{color:var(--ink);font-weight:600}
+.pg img{display:block;width:100%;max-width:100%;height:auto;border:1px solid var(--rule);background:#fff}
+.pg.a4 img{max-width:640px}
+.notes{margin-top:8px;display:grid;gap:6px}
+.note{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 12px;padding:6px 0;border-bottom:1px dotted var(--rule)}
+.note .tx{color:var(--red);font-weight:600;white-space:pre-wrap;overflow-wrap:anywhere}
+.note .meta{font-size:12px;color:var(--sub)}
+.note.done .tx{color:var(--sub);text-decoration:line-through;font-weight:400}
+.note .ops{display:flex;gap:6px;align-items:start}
+.btn{font:inherit;font-size:13px;color:var(--ink);background:var(--paper);border:1px solid var(--ink);padding:6px 12px;min-height:34px;cursor:pointer}
+.btn:hover{color:var(--red);border-color:var(--red)}
+.btn:focus-visible,textarea:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid var(--red);outline-offset:2px}
+.btn.ghost{border-color:var(--rule);color:var(--sub)}
+.btn.red{background:var(--red);border-color:var(--red);color:#fff}
+.btn[disabled]{opacity:.5;cursor:default}
+.add{margin-top:6px}
+.composer{display:none;margin-top:8px;gap:8px}
+.composer.open{display:grid}
+.composer textarea{width:100%;min-height:78px;font:inherit;font-size:14px;color:var(--red);font-weight:600;background:var(--paper);border:1px solid var(--red);padding:8px 10px;resize:vertical}
+.composer .row{display:flex;gap:8px;flex-wrap:wrap}
+.todo{list-style:none;margin:0;padding:0}
+.todo li{border-bottom:1px solid var(--rule);padding:10px 0;display:grid;grid-template-columns:28px minmax(0,1fr);gap:10px}
+.todo input[type=checkbox]{appearance:none;-webkit-appearance:none;width:22px;height:22px;border:1.5px solid var(--ink);background:var(--paper);margin:3px 0 0;cursor:pointer;display:grid;place-content:center}
+.todo input[type=checkbox]:checked{background:var(--red);border-color:var(--red)}
+.todo input[type=checkbox]:checked::after{content:"";width:6px;height:11px;border:solid #fff;border-width:0 2px 2px 0;transform:rotate(45deg) translate(-1px,-1px)}
+.todo input[type=checkbox][disabled]{cursor:default;opacity:.7}
+.todo .tt{font-weight:600}
+.todo .dd{display:block;color:var(--sub);font-size:13px}
+.todo li.on .tt{color:var(--sub);text-decoration:line-through;text-decoration-color:var(--red)}
+.todo input.memo{grid-column:2;width:100%;font:inherit;font-size:13px;color:var(--ink);background:var(--paper);border:1px solid var(--rule);padding:6px 9px}
+.meter{display:flex;align-items:center;gap:14px;margin:8px 0 6px}
+.bar{flex:1;height:10px;background:var(--rule);position:relative}
+.bar i{position:absolute;inset:0 auto 0 0;background:var(--red);width:0;transition:width .25s}
+.pct{font-family:var(--display);font-size:26px;min-width:84px;text-align:right}
+.pct small{font-family:var(--body);font-size:12px;color:var(--sub)}
+.tabs{display:flex;gap:6px;margin:6px 0 10px;flex-wrap:wrap}
+.tabs .btn[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.list .it{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 12px;padding:9px 0;border-bottom:1px solid var(--rule)}
+.list .where{font-size:12px;color:var(--sub)}
+.list .tx{color:var(--red);font-weight:600;white-space:pre-wrap;overflow-wrap:anywhere}
+.list .it.done .tx{color:var(--sub);text-decoration:line-through;font-weight:400}
+.empty{color:var(--sub);font-size:14px;padding:8px 0}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th{text-align:left;border-bottom:1.5px solid var(--ink);padding:6px 8px;color:var(--sub);font-size:12px;font-weight:400}
+td{border-bottom:1px solid var(--rule);padding:8px;vertical-align:top}
+td.t{white-space:nowrap;color:var(--sub);width:90px}
+tr.ins td{background:var(--tint)}
+.tablewrap{overflow-x:auto}
+@media (max-width:860px){
+  .shell{grid-template-columns:minmax(0,1fr)}
+  nav.toc{position:static;max-height:none;margin-bottom:20px}
+  nav.toc ol{display:grid;grid-template-columns:1fr 1fr;column-gap:18px}
+  nav.toc li.sep{grid-column:1/-1}
+  .head h1{font-size:28px}
+}
+@media (max-width:480px){ nav.toc ol{grid-template-columns:1fr} .blk h2{font-size:21px} }
+@media (prefers-reduced-motion:reduce){ .bar i{transition:none} }
+
+.gate{position:fixed;inset:0;background:var(--bg);display:grid;place-items:center;padding:16px;z-index:10}
+.gate form{width:min(420px,100%);display:grid;gap:12px}
+.gate h1{font-size:28px}
+.gate p{margin:0;color:var(--sub);font-size:14px}
+.gate input{font:inherit;font-size:16px;padding:11px 12px;border:1.5px solid var(--ink);background:var(--paper);color:var(--ink);width:100%}
+.gate .err{color:var(--red);min-height:1.4em;font-size:14px}
+.gate .btn{font-size:15px;min-height:44px}
+.tools{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 12px}
+.copied{font-size:13px;color:var(--ok);align-self:center}
+</style></head><body>
+<div class="gate" id="gate"><form id="gateForm">
+  <div><div style="font-size:12px;color:var(--sub);letter-spacing:.08em">ROKUBUNNONI　AI OFFLINE WORKSHOP</div><h1>AIオフ会　資料室</h1></div>
+  <p>合言葉を入力してください。</p>
+  <label for="pw" style="font-size:13px;color:var(--sub)">合言葉</label>
+  <input id="pw" type="password" autocomplete="off" autocapitalize="off" spellcheck="false">
+  <div class="err" id="err" role="alert"></div>
+  <button class="btn red" type="submit">開く</button>
+</form></div>
+
+<div class="shell" id="app" hidden>
+  <header class="head">
+    <div><div class="k">ROKUBUNNONI　AI OFFLINE WORKSHOP</div><h1>AIオフ会　資料室</h1></div>
+    <div class="sum"><b id="openCount">0</b>件の修正メモ</div>
+  </header>
+  <p class="lead">講習で使う資料を、目次ごとに見られます。直したい所は、そのページの「修正を書く」から<b>赤字</b>で残してください。書いたメモは、この端末のブラウザにだけ保存されます。送るときは「修正の一覧」の<b>全部コピー</b>を押して、LINEやメールに貼ってください。</p>
+  <nav class="toc" aria-label="目次"><h2>目次</h2><ol id="tocList"></ol></nav>
+  <main id="main"></main>
+</div>
+
+<script>
+(function(){
+var HASHES=["f1dff9293fcd1a0da39592acfe9699915c11811dd05df7d1a03ffb72e82ab047", "37b4cdfcf47ec1a7f4fe6302704a00398c9438ad61bd22e3ac73363abef3f985"];
+function sha256(s){
+  if(window.crypto&&crypto.subtle){
+    return crypto.subtle.digest("SHA-256",new TextEncoder().encode(s)).then(function(b){return Array.prototype.map.call(new Uint8Array(b),function(x){return ("0"+x.toString(16)).slice(-2)}).join("");});
+  }
+  return Promise.resolve(null);
+}
+function unlock(){ document.getElementById("gate").hidden=true; document.getElementById("app").hidden=false; start(); }
+var KEY="aioffkai-unlocked-v1";
+try{ if(sessionStorage.getItem(KEY)==="1"){ unlock(); } }catch(e){}
+document.getElementById("gateForm").addEventListener("submit",function(e){
+  e.preventDefault();
+  var v=document.getElementById("pw").value.trim();
+  sha256(v).then(function(h){
+    if(h&&HASHES.indexOf(h)>=0){ try{sessionStorage.setItem(KEY,"1")}catch(e){} unlock(); }
+    else document.getElementById("err").textContent=h===null?"このブラウザでは開けません。別のブラウザでお試しください。":"合言葉が違います。";
+  });
+});
+var started=false;
+function start(){
+if(started) return; started=true;
+var DOCS=[
+ {k:"s01",no:"01",t:"本編スライド（19枚）",d:"画面に映す資料。",n:19,label:"スライド",titles:["表紙","今日の約束","先週いちばん時間を奪った作業は","私の実例　配送の悩み","私の実例　往復計画の画面","私の実例　Googleマップ","すごいのは頼み方","デモ①　雑なメモ","デモ②　出てきた4つ","頼み方で答えが変わる","頼み方の型　7行","3つの一言","安心して使うために","実習1　書き出す","実習2　選ぶ","実習3　7行で頼む","実習4　検品して残す","その先","今日から1つだけ"]},
+ {k:"s02",no:"02",t:"読み上げ台本",d:"スライドごとに、そのまま読める文章。左の赤線の小さな字は、読まないメモ。",n:10,a4:true,label:"ページ"},
+ {k:"s03",no:"03",t:"参加者ワークシート",tag:"配る",d:"A4の表裏。実習1〜4を書き込む。両面印刷、人数分。",n:2,a4:true,label:"面",titles:["表","裏"]},
+ {k:"s04",no:"04",t:"お土産プロンプト23種",tag:"配る",d:"仕事別のコピペ用指示文。",n:9,a4:true,label:"ページ"},
+ {k:"s05",no:"05",t:"補足スライド（6枚）",d:"時間が足りないときだけ挟む。",n:6,label:"スライド",titles:["補足A　ヒアリング","補足B　追加デモの候補","補足B　その場で頼む","補足C　発表","補足D　よくあるご質問","休憩5分"]},
+ {k:"s06",no:"06",t:"補足資料の台本",d:"補足の読み上げ文と、「どこに何分入れるか」の早見表。",n:5,a4:true,label:"ページ"},
+ {k:"s07",no:"07",t:"配送アプリの画面",d:"スライド6枚目に使った画面。出発地は伏せています。",n:1,label:"画面",titles:["Googleマップ　経由地つきのルート"],ext:"png",nopdf:true}
+];
+var SCHEDULE=[["1〜3","つかみ／今日の約束／「先週いちばん時間を奪った作業は？」","3分",0],["補足A","ヒアリング（3〜4人に悩みを聞く）","＋10分",1],["4〜7","私の実例（配送アプリ・Googleマップ連動）→「すごいのは頼み方」","6分",0],["8〜9","デモ（雑なメモ→議事録・TODO・お礼メール）","6分",0],["補足B","追加デモ（候補から1つ／会場の悩みをその場で）","＋5〜15分",1],["10〜12","頼み方の差／7行の型／3つの一言","10分",0],["13","安心して使うために（入れていい情報・ダメな情報）","3分",0],["補足D","よくあるご質問＋休憩5分","＋10分",1],["14〜17","実習：①書き出す3分 ②選ぶ3分 ③7行で頼む10分 ④検品して保存5分","21分",0],["補足C","発表（2〜3人）","＋5〜10分",1],["18〜19","その先（仕組み化のサイン）／今日から1つだけ","3分",0]];
+var NKEY="aioffkai-notes-v1", notes=[], filter="open";
+function load(){ try{ notes=JSON.parse(localStorage.getItem(NKEY)||"[]")||[]; }catch(e){ notes=[]; } }
+function save(){ try{ localStorage.setItem(NKEY,JSON.stringify(notes)); }catch(e){ var b=document.getElementById("saveWarn"); if(b) b.hidden=false; } }
+var $=function(s,r){return (r||document).querySelector(s)};
+function el(t,c,x){var e=document.createElement(t); if(c) e.className=c; if(x!=null) e.textContent=x; return e;}
+function fmt(i){ try{return new Date(i).toLocaleString("ja-JP",{month:"numeric",day:"numeric",hour:"2-digit",minute:"2-digit"});}catch(e){return "";} }
+function docOf(k){ return DOCS.filter(function(d){return d.k===k})[0]; }
+function pl(d,i){ return (d.label||"ページ")+" "+(i+1)+(d.titles&&d.titles[i]?"　"+d.titles[i]:""); }
+var toc=$("#tocList");
+function sep(t){ toc.appendChild(el("li","sep",t)); }
+function ti(href,no,t,id){ var li=el("li"),a=el("a"); a.href=href; a.appendChild(el("span","n",no)); a.appendChild(el("span","t",t)); var c=el("span","c",""); if(id) c.id=id; a.appendChild(c); li.appendChild(a); toc.appendChild(li); }
+sep("確認"); ti("#fixes","・","修正の一覧","c-fixes"); sep("資料");
+DOCS.forEach(function(d){ ti("#"+d.k,d.no,d.t,"c-"+d.k); }); sep("当日"); ti("#schedule","・","進行表");
+toc.addEventListener("click",function(e){ var a=e.target.closest("a"); if(!a) return; var t=document.getElementById(a.getAttribute("href").slice(1)); if(t){ e.preventDefault(); t.scrollIntoView({behavior:"smooth",block:"start"}); } });
+var main=$("#main");
+var sFix=el("section","blk"); sFix.id="fixes";
+sFix.innerHTML='<div class="bh"><h2>修正の一覧</h2></div><p class="desc">各ページに書いた修正メモが集まります。送るときは「全部コピー」を押して、LINEやメールに貼ってください。</p><div class="banner" id="saveWarn" hidden style="grid-column:auto">このブラウザでは保存できません。書いたあとすぐにコピーしてください。</div>';
+var tools=el("div","tools"); var cp=el("button","btn red","全部コピー"); cp.type="button"; var cd=el("span","copied",""); cd.setAttribute("aria-live","polite"); tools.appendChild(cp); tools.appendChild(cd); sFix.appendChild(tools);
+var tabs=el("div","tabs"); [["open","未対応"],["done","対応済み"],["all","すべて"]].forEach(function(x){ var b=el("button","btn",x[1]); b.type="button"; b.dataset.f=x[0]; b.setAttribute("aria-pressed",x[0]===filter?"true":"false"); b.addEventListener("click",function(){ filter=x[0]; [].forEach.call(tabs.children,function(c){ c.setAttribute("aria-pressed",c.dataset.f===filter?"true":"false"); }); renderFixes(); }); tabs.appendChild(b); });
+var fixList=el("div","list"); sFix.appendChild(tabs); sFix.appendChild(fixList); main.appendChild(sFix);
+cp.addEventListener("click",function(){
+  var list=notes.filter(function(n){return !n.done});
+  if(!list.length){ cd.textContent="コピーする修正メモがありません"; return; }
+  var text="【AIオフ会 資料の修正】\n"+list.map(function(n){ var d=docOf(n.doc); return "・"+(d?d.no+" "+d.t+"／"+pl(d,n.page-1):"")+"\n　"+n.text; }).join("\n");
+  function done(){ cd.textContent="コピーしました（"+list.length+"件）"; }
+  function fallback(){ var ta=document.createElement("textarea"); ta.value=text; ta.style.position="fixed"; ta.style.opacity="0"; document.body.appendChild(ta); ta.select(); try{ document.execCommand("copy"); done(); }catch(e){ cd.textContent="コピーできませんでした"; } document.body.removeChild(ta); }
+  if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(text).then(done,fallback); } else fallback();
+});
+var pageNodes={};
+DOCS.forEach(function(d){
+  var s=el("section","blk"); s.id=d.k; var bh=el("div","bh"); bh.appendChild(el("span","no",d.no)); bh.appendChild(el("h2",null,d.t)); if(d.tag) bh.appendChild(el("span","tag",d.tag)); s.appendChild(bh); s.appendChild(el("p","desc",d.d));
+  if(!d.nopdf){ var ac=el("div","acts"); var a=el("a",null,"PDFを開く"); a.href="assets/"+d.k+".pdf"; a.target="_blank"; a.rel="noopener"; ac.appendChild(a); s.appendChild(ac); }
+  var pages=el("div","pages");
+  for(var i=0;i<d.n;i++){ (function(i){
+    var key=d.k+"-"+(i+1), pg=el("div","pg"+(d.a4?" a4":"")); pg.id="p-"+key;
+    var cap=el("div","cap"); cap.appendChild(el("b",null,pl(d,i))); pg.appendChild(cap);
+    var img=document.createElement("img"); img.src="assets/"+d.k+"_"+(i+1)+"."+(d.ext||"jpg"); img.alt=d.t+" "+pl(d,i); img.loading="lazy"; pg.appendChild(img);
+    var nl=el("div","notes"); nl.id="n-"+key; pg.appendChild(nl);
+    var aw=el("div","add"); var add=el("button","btn ghost","修正を書く"); add.type="button"; aw.appendChild(add); pg.appendChild(aw);
+    var comp=el("div","composer"); var ta=document.createElement("textarea"); ta.id="ta-"+key; ta.placeholder="直したい所を書いてください（赤字で残ります）"; ta.setAttribute("aria-label",pl(d,i)+" の修正メモ");
+    var row=el("div","row"); var send=el("button","btn red","残す"); send.type="button"; var cc=el("button","btn ghost","やめる"); cc.type="button"; row.appendChild(send); row.appendChild(cc); comp.appendChild(ta); comp.appendChild(row); pg.appendChild(comp);
+    add.addEventListener("click",function(){ comp.classList.add("open"); aw.style.display="none"; ta.focus(); });
+    cc.addEventListener("click",function(){ comp.classList.remove("open"); aw.style.display=""; ta.value=""; });
+    send.addEventListener("click",function(){ var t=ta.value.trim(); if(!t) return; notes.unshift({id:String(Date.now())+Math.random().toString(36).slice(2,6),doc:d.k,page:i+1,text:t,at:new Date().toISOString(),done:false}); save(); ta.value=""; comp.classList.remove("open"); aw.style.display=""; renderNotes(); });
+    pages.appendChild(pg);
+  })(i); }
+  s.appendChild(pages); main.appendChild(s);
+});
+var sSch=el("section","blk"); sSch.id="schedule";
+sSch.innerHTML='<div class="bh"><h2>当日の進行表</h2></div><p class="desc">台本の目安。色のついた行が補足を入れる場所です。</p>';
+var tw=el("div","tablewrap"),tb=document.createElement("table"); tb.innerHTML='<tr><th>スライド</th><th>内容</th><th>目安</th></tr>';
+SCHEDULE.forEach(function(r){ var tr=document.createElement("tr"); if(r[3]) tr.className="ins"; [r[0],r[1],r[2]].forEach(function(x,i){ var td=document.createElement("td"); if(i!==1) td.className="t"; td.textContent=x; tr.appendChild(td); }); tb.appendChild(tr); });
+tw.appendChild(tb); sSch.appendChild(tw); var nt=el("p","desc","本編だけで約52分、実際は約55〜65分。本編＋補足を全部入れると約95〜105分です。"); nt.style.marginTop="12px"; sSch.appendChild(nt); main.appendChild(sSch);
+function noteNode(n){
+  var w=el("div","note"+(n.done?" done":"")), l=el("div"); l.appendChild(el("div","tx",n.text)); l.appendChild(el("div","meta",fmt(n.at)+(n.done?"　対応済み":""))); w.appendChild(l);
+  var ops=el("div","ops"); var tg=el("button","btn ghost",n.done?"戻す":"直した"); tg.type="button"; tg.addEventListener("click",function(){ n.done=!n.done; save(); renderNotes(); }); ops.appendChild(tg);
+  var del=el("button","btn ghost","消す"); del.type="button"; del.addEventListener("click",function(){ if(del.dataset.arm){ notes=notes.filter(function(x){return x.id!==n.id}); save(); renderNotes(); } else { del.dataset.arm="1"; del.textContent="本当に消す"; setTimeout(function(){ del.dataset.arm=""; del.textContent="消す"; },3000); } }); ops.appendChild(del);
+  w.appendChild(ops); return w;
+}
+function renderNotes(){
+  var by={},open={},total=0;
+  notes.forEach(function(n){ (by[n.doc+"-"+n.page]=by[n.doc+"-"+n.page]||[]).push(n); if(!n.done){ open[n.doc]=(open[n.doc]||0)+1; total++; } });
+  DOCS.forEach(function(d){ for(var i=0;i<d.n;i++){ var box=$("#n-"+d.k+"-"+(i+1)); box.textContent=""; (by[d.k+"-"+(i+1)]||[]).forEach(function(n){ box.appendChild(noteNode(n)); }); } $("#c-"+d.k).textContent=open[d.k]?open[d.k]+"":""; });
+  $("#openCount").textContent=total; $("#c-fixes").textContent=total?total+"":""; renderFixes();
+}
+function renderFixes(){
+  fixList.textContent="";
+  var list=notes.filter(function(n){ return filter==="all"||(filter==="open"?!n.done:n.done); });
+  if(!list.length){ fixList.appendChild(el("div","empty",filter==="open"?"修正メモはまだありません。":"該当するメモはありません。")); return; }
+  list.forEach(function(n){ var d=docOf(n.doc); if(!d) return; var it=el("div","it"+(n.done?" done":"")), l=el("div"), w=el("div","where"), a=el("a",null,d.no+" "+d.t+"　"+pl(d,n.page-1)); a.href="#p-"+n.doc+"-"+n.page;
+    a.addEventListener("click",function(e){ e.preventDefault(); var t=document.getElementById("p-"+n.doc+"-"+n.page); if(t) t.scrollIntoView({behavior:"smooth",block:"start"}); });
+    w.appendChild(a); l.appendChild(w); l.appendChild(el("div","tx",n.text)); l.appendChild(el("div","where",fmt(n.at))); it.appendChild(l); fixList.appendChild(it); });
+}
+load(); renderNotes();
+}
+})();
+</script></body></html>
